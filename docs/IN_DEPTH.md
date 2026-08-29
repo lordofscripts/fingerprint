@@ -50,9 +50,7 @@ marks are discarded, both files could look like:
 
 The **Jaccard Similarity** is defined as:
 
-> `        ∣A∪B∣
-> `J(A,B)= -----
-> `        ∣A∩B∣
+> `J(A,B)= ∣A∪B∣ / ∣A∩B∣`
 
 And since both sets reduced to the same. The above becomes `4/4 = 1.000`. The algorithm
 detects *which content is present*, but not *how many times it occurs*.​

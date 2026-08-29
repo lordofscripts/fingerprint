@@ -200,6 +200,8 @@ A common configuration is to set `NoiseThreshold` and `GuaranteeThreshold` to th
 The library is designed for relatively small documents and is not currently optimized for use with large streams or
 channels.
 
+Do you want to know more? Read the [In Depth Information](IN_DEPTH.md)
+
 #### History
 
 - 2026-08-28 Added File fingerprinting and 3 supplementary *Similarity Scores* (Go v1.22)
