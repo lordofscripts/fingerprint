@@ -1,4 +1,5 @@
 
+![Divider](./assets/lordofscripts-divider-golden.png)
 ## More In-depth Information
 
 The test directory contains these:

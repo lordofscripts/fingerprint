@@ -1,5 +1,13 @@
 # Document Fingerprint & Similarity
 
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/lordofscripts/fingerprint)
+![Build](https://github.com/lordofscripts/fingerprint/actions/workflows/build.yml/badge.svg)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lordofscripts/fingerprint.svg)](https://pkg.go.dev/github.com/lordofscripts/fingerprint)
+[![GitHub release (with filter)](https://img.shields.io/github/v/release/lordofscripts/fingerprint)](https://github.com/lordofscripts/fingerprint/releases/latest)
+[![Created](https://badges.pufler.dev/created/lordofscripts/fingerprint)](https://badges.pufler.dev)
+[![Updated](https://badges.pufler.dev/updated/lordofscripts/fingerprint)](https://badges.pufler.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A fingerprinting and similarity module for Go.
 
 This is an implementation of the algorithm described in
@@ -38,6 +46,30 @@ not just simple strings.
 - **Size-adjusted, Multi-set and Coverage** scores are now added (not present in the original) 
 - **File comparison** which was neither supported nor included in the original module.
 - **Improved documentation** to help end-user decide HOW to use it and which metric to use.
+
+<table align="center">
+<tr>
+<th align="center" colspan="2">
+Show your support for continued development of these useful software applications
+</th>
+</tr>
+<tr>
+<td>
+<img src="./assets/allmylinks.png?raw=true" alt="AllMyLinks logo" />
+</td>
+<td>
+Visit <br> Lord of Scripts&trade; on<br><a href="https://allmylinks.com/lordofscripts">AllMyLinks.com</a>
+</td>
+</tr>
+<tr>
+<td>
+<img src="./assets/buymecoffee-dark.png?raw=true" alt="Buy LordOfScripts Coffee" />
+</td>
+<td>
+Buy Lord of Scripts&trade; <br> a Capuccino on <br><a href="https://www.buymeacoffee.com/lostinwriting">BuyMeACoffee.com</a>
+</td>
+</tr>
+</table>
 
 ---
 
@@ -161,7 +193,7 @@ Hints:
 
 A common configuration is to set `NoiseThreshold` and `GuaranteeThreshold` to the same value (e.g., 4 or 5).
 
---- 
+![Divider](./assets/lordofscripts-divider-golden.png)
 
 ## Performance Note
 
@@ -170,5 +202,5 @@ channels.
 
 #### History
 
-- 2026-08-28 Added File fingerprinting and 3 supplementary *Similarity Scores*
-- 2026-08-28 `origin` based on Graham's `2026-08-27-517b8d3` update.
+- 2026-08-28 Added File fingerprinting and 3 supplementary *Similarity Scores* (Go v1.22)
+- 2026-08-28 `origin` based on Graham's `2026-08-27-517b8d3` update. (Go v1.22)

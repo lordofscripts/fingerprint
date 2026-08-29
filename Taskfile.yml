@@ -4,6 +4,7 @@
 # Developer: LordOfScripts™
 # Examples:
 #   - task fingerprint
+# TaskFile Template v1.1
 version: '3'
 
 vars:
@@ -17,12 +18,19 @@ vars:
   # 🚫 Off-limits
   GREETING: 🔱 Greetings from LordOfScripts™ 🔱
   # Build type: 'debug' (default is release)
-  BUILD_TYPE: '{{.BUILD_TYPE | default ""}}'  
-  PKG_SEMANTIC_VERSION: '1.0'
-  PKG_FULL_VERSION: '1.0'
+  BUILD_TYPE: '{{.BUILD_TYPE | default ""}}' 
+  PKG_SEMANTIC_VERSION:
+    sh: |   
+      sed -n '/>>>BEGIN/,/>>>END/p' version.go > /tmp/mainversion_gap.go &&
+      go run /tmp/mainversion_gap.go short
+  PKG_FULL_VERSION:
+    sh: |   
+      sed -n '/>>>BEGIN/,/>>>END/p' version.go > /tmp/mainversion_gap.go &&
+      go run /tmp/mainversion_gap.go version   
   PKG_PUBLIC_NAME: 
     sh: go list -m
   PKG_FULLNAME: '{{.PKG_NAME}}_{{.PKG_FULL_VERSION}}-{{.PKG_REVISION}}-{{.PKG_PREFERRED_ARCH}}'
+  PKG_SUMMARY: 'Document Fingerprint & Similarity Check'
 
 tasks:
   default:
@@ -68,4 +76,11 @@ tasks:
       - 'echo -e "\tFull version: {{.PKG_FULL_VERSION}}"'
       - 'echo -e "\tModule name: {{.PKG_PUBLIC_NAME}}"'
       - 'echo -e "\tPackage name: {{.PKG_FULLNAME}}"'
+    silent: true
+
+  # Software Version (Task)
+  version:
+    desc: Software version only
+    cmds:
+      - 'echo -e "\t{{.PKG_NAME}} {{.PKG_SEMANTIC_VERSION}} - {{.PKG_SUMMARY}}"'
     silent: true      
