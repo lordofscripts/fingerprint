@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+# Created: 28 Aug 2026
+# Updated: 28 Aug 2026
+# Developer: LordOfScripts™
+# Examples:
+#   - task fingerprint
+version: '3'
+
+vars:
+  # ⚙️ Task 'Fingerprint' build paths
+  SRC_DEMO: cmd
+  BIN_DEMO: bin/similarity
+  # ⚙️ Task 'Info' Software Distribution Information
+  PKG_NAME: fingerprint
+  PKG_PREFERRED_ARCH: amd64
+  PKG_REVISION: '1'
+  # 🚫 Off-limits
+  GREETING: 🔱 Greetings from LordOfScripts™ 🔱
+  # Build type: 'debug' (default is release)
+  BUILD_TYPE: '{{.BUILD_TYPE | default ""}}'  
+  PKG_SEMANTIC_VERSION: '1.0'
+  PKG_FULL_VERSION: '1.0'
+  PKG_PUBLIC_NAME: 
+    sh: go list -m
+  PKG_FULLNAME: '{{.PKG_NAME}}_{{.PKG_FULL_VERSION}}-{{.PKG_REVISION}}-{{.PKG_PREFERRED_ARCH}}'
+
+tasks:
+  default:
+    desc: Print a greeting message
+    cmds:
+      - echo -e "\t{{.GREETING}}\n\tAre you lost?\n\t☕️ https://buymeacoffee.com/lostinwriting"
+    silent: true
+
+  # Build Secretum CLI (Task)
+  fingerprint:
+    desc: Document Similarity Demo
+    cmds:
+      - echo "{{.GREETING}}"
+      - |
+        go build -v -o {{.BIN_DEMO}} {{.SRC_DEMO}}/*.go 2>&1 | $HOME/go/bin/gocolor -color -width 75 -version
+        echo "👋 delivered {{.BIN_DEMO}}"
+    silent: true
+
+  # Publish Package (Task)
+  publish:
+    desc: Publish package via GO PROXY
+    cmds:
+      - GOPROXY=proxy.golang.org go list -m {{.PKG_PUBLIC_NAME}}@v{{.PKG_FULL_VERSION}}
+
+  # Run Tests (Task)
+  test:
+    desc: Regression and Unit Tests
+    cmds:
+      - go test -v tests/*_test.go
+  
+  # Clean binaries (Task)
+  clean:
+    desc: Remove all output binaries
+    cmds:
+      - rm -f bin/*
+      - go clean -cache
+
+  # Software Information (Task)
+  info:
+    desc: General information about this Software
+    cmds:
+      - 'echo -e "\tSemantic version: {{.PKG_SEMANTIC_VERSION}}"'
+      - 'echo -e "\tFull version: {{.PKG_FULL_VERSION}}"'
+      - 'echo -e "\tModule name: {{.PKG_PUBLIC_NAME}}"'
+      - 'echo -e "\tPackage name: {{.PKG_FULLNAME}}"'
+    silent: true      
