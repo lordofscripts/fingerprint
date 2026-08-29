@@ -13,32 +13,33 @@ func TestStreamFingerprintMatchesTextFingerprint(t *testing.T) {
 		Normalize:          true, // @todo update test to try both
 	}
 
-	text := "The quick brown fox jumped over the lazy dog."
-
-	expected := fingerprinter.TextFingerprint(text, options)
-
-	stream := fingerprinter.NewStreamFingerprinter(options)
-
+	text := "The quick brown ß Fox jumped over the lazy dog."
 	chunks := []string{
 		"The quick ",
-		"brown fox ",
+		"brown ß Fox ",
 		"jumped over ",
 		"the lazy dog.",
 	}
 
-	for _, chunk := range chunks {
-		if _, err := stream.Write([]byte(chunk)); err != nil {
-			t.Fatal(err)
+	// Test with both normalize conditions
+	for _, normalize := range []bool{true, false} {
+		options.Normalize = normalize
+		expected := fingerprinter.TextFingerprint(text, options)
+
+		stream := fingerprinter.NewStreamFingerprinter(options)
+		for _, chunk := range chunks {
+			if _, err := stream.Write([]byte(chunk)); err != nil {
+				t.Fatal(err)
+			}
 		}
-	}
+		actual := stream.Finish()
 
-	actual := stream.Finish()
-
-	// 1. For slices: !fingerprintsEqual(expected, actual)
-	// 2. For sets  : !reflect.DeepEqual(expected, actual)
-	if !fingerprintsEqual(expected, actual) {
-		t.Fatalf("fingerprints differ:\nexpected: %v\nactual:   %v",
-			expected, actual)
+		// 1. For slices: !fingerprintsEqual(expected, actual)
+		// 2. For sets  : !reflect.DeepEqual(expected, actual)
+		if !fingerprintsEqual(expected, actual) {
+			t.Fatalf("fingerprints differ. Normalize:%t\nexpected: %v\nactual:   %v",
+				normalize, expected, actual)
+		}
 	}
 }
 
