@@ -1,3 +1,10 @@
+/* -----------------------------------------------------------------
+ *
+ *
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
 package tests
 
 import (
@@ -8,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStringSimilarity(t *testing.T) {
+func Test_StringSimilarity(t *testing.T) {
 	t.Run("should return 1 for identical strings", func(t *testing.T) {
 		text := "the quick brown fox jumped over the lazy dog"
 		assert.Equal(t, 1.0, similarity.StringSimilarity(text, text, fingerprinter.Options{}))
@@ -21,7 +28,8 @@ func TestStringSimilarity(t *testing.T) {
 	})
 }
 
-func TestCompare(t *testing.T) {
+// Was: TestCompare
+func TestSimilarity_Compare(t *testing.T) {
 	t.Run("two empty fingerprints returns 0", func(t *testing.T) {
 		f1 := fingerprinter.Fingerprint{}
 		f2 := fingerprinter.Fingerprint{}

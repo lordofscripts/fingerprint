@@ -1,3 +1,10 @@
+/* -----------------------------------------------------------------
+ *
+ *
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
 package tests
 
 import (
@@ -7,7 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestKGramHash(t *testing.T) {
+// Was: TestKGramHash
+func TestFingerprinter_KGramHash(t *testing.T) {
 	t.Run("returns an empty hash vector for an empty kgram vector", func(t *testing.T) {
 		assert.Equal(t, []uint32{}, fingerprinter.KGramHash([]string{}))
 	})

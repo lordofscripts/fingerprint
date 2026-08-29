@@ -1,3 +1,10 @@
+/* -----------------------------------------------------------------
+ *
+ *
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
 package tests
 
 import (
@@ -25,7 +32,7 @@ func TestWinnow(t *testing.T) {
 	}
 }
 
-func TestWinnowFingerprinting(t *testing.T) {
+func Test_WinnowFingerprint(t *testing.T) {
 	tests := []struct {
 		name        string
 		fingerprint fingerprinter.Fingerprint
@@ -41,7 +48,7 @@ func TestWinnowFingerprinting(t *testing.T) {
 	}
 }
 
-func TestRightmostLowestValue(t *testing.T) {
+func Test_RightmostLowestValue(t *testing.T) {
 	tests := []struct {
 		name     string
 		expected fingerprinter.Mark

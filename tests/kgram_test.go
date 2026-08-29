@@ -1,3 +1,10 @@
+/* -----------------------------------------------------------------
+ *
+ *
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
 package tests
 
 import (
@@ -7,7 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestKgramGenerations(t *testing.T) {
+// Was: TestKgramGenerations
+func TestFingerprinter_KgramGenerations(t *testing.T) {
 	t.Run("should return empty list for empty string", func(t *testing.T) {
 		assert.Empty(t, fingerprinter.KGram(0, ""))
 	})

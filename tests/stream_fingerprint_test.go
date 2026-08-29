@@ -1,3 +1,10 @@
+/* -----------------------------------------------------------------
+ *              L o r d  O f   S c r i p t s (tm)
+ *             Copyright (C)2026 Dídimo Grimaldo T.
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
 package tests
 
 import (
@@ -6,7 +13,10 @@ import (
 	"github.com/lordofscripts/fingerprint/fingerprinter"
 )
 
-func TestStreamFingerprintMatchesTextFingerprint(t *testing.T) {
+/* ----------------------------------------------------------------
+ *            U n i t  T e s t   F u n c t i o n s
+ *-----------------------------------------------------------------*/
+func TestStreamFingerprint_MatchesTextFingerprint(t *testing.T) {
 	options := fingerprinter.Options{
 		GuaranteeThreshold: 4,
 		NoiseThreshold:     4,
@@ -42,6 +52,10 @@ func TestStreamFingerprintMatchesTextFingerprint(t *testing.T) {
 		}
 	}
 }
+
+/* ----------------------------------------------------------------
+ *              H e l p e r   F u n c t i o n s
+ *-----------------------------------------------------------------*/
 
 func fingerprintsEqual(a, b fingerprinter.Fingerprint) bool {
 	if len(a) != len(b) {

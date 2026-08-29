@@ -1,3 +1,11 @@
+/* -----------------------------------------------------------------
+ *
+ *
+ *                       GoFingerprint
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *                      U n i t   T e s t
+ *-----------------------------------------------------------------*/
+
 package tests
 
 import (
@@ -7,7 +15,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFingerprinting(t *testing.T) {
+// Was: TestFingerprinting
+func TestFingerprinter_Record(t *testing.T) {
 	t.Run("returns empty fingerprinter for empty text", func(t *testing.T) {
 		assert.Empty(t, fingerprinter.Record(4, ""))
 	})
@@ -18,16 +27,17 @@ func TestFingerprinting(t *testing.T) {
 	})
 }
 
-func TestFingerprintOptions(t *testing.T) {
+// Was: TestFingerprintOptions
+func TestFingerprinter_Options(t *testing.T) {
 	tests := []struct {
 		name   string
 		option fingerprinter.Options
 		result bool
 		error  error
 	}{
-		{name: "k > t", option: fingerprinter.Options{GuaranteeThreshold: 0, NoiseThreshold: 1}, result: false, error: nil},
-		{name: "k == t", option: fingerprinter.Options{GuaranteeThreshold: 1, NoiseThreshold: 1}, result: true, error: nil},
-		{name: "k < t", option: fingerprinter.Options{GuaranteeThreshold: 2, NoiseThreshold: 1}, result: true, error: nil},
+		{name: "k > t", option: fingerprinter.Options{GuaranteeThreshold: 0, NoiseThreshold: 1, Normalize: true}, result: false, error: nil},
+		{name: "k == t", option: fingerprinter.Options{GuaranteeThreshold: 1, NoiseThreshold: 1, Normalize: true}, result: true, error: nil},
+		{name: "k < t", option: fingerprinter.Options{GuaranteeThreshold: 2, NoiseThreshold: 1, Normalize: true}, result: true, error: nil},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

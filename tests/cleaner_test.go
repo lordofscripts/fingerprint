@@ -7,7 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTestCleaning(t *testing.T) {
+// NOTE: Used in the original repository. The new (my enhancements) no
+// longer invoke this as it is done based on "Options.Normalize"
+func TestText_Clean(t *testing.T) {
 	tests := []struct {
 		name    string
 		raw     string
