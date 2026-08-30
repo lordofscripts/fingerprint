@@ -23,7 +23,7 @@ const (
 	DevStatusReleased DevStatus = ""
 )
 
-const MANUAL_VERSION string = "1.0.0"
+const MANUAL_VERSION string = "1.1.0"
 
 var ModuleVersion = NewReleaseVersion("Fingerprint", "Document similarity & fingerprint", MANUAL_VERSION)
 

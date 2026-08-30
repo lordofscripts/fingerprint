@@ -70,18 +70,3 @@ returned in the new `similarity.SimilarityScores` structure:
 | `document_C_20.txt` | `random_A_20.txt`   | 0.016 | 0.013 | 0.009 | 0.018 |
 | `random_A_20.txt`   | `random_B_20.txt`   | 1.000 | 1.000 | 1.000 | 1.000 |
 
-### What Changed from the Original
-
-The upstream baseline from which this was taken was: `2026-08-27-517b8d3`.
-
-- I am using standard software versioning for tags rather than dates.
-- The `go.mod` properly reports the minimum required GO version (not the last version)
-- Added a `Taskfile.yml` for building with [TaskFile](https://taskfile.dev/)
-- Added the `cmd` package with therein an interactive demo application
-- Added multiple score alternatives consolidated into `similarity.SimilarityScores`
-- Added `tests/assets` directory with test data therein. Tests moved there too.
-- Added `similarity.FileSimilarity()` function
-- Added the `fingerprinter.StreamFingerprinter` object plus extra test
-- Updated `fingerprinter.TextFingerprint()`
-- Added `fingerprinter.FileFingerprint()`
-- Added the `Normalize` option to `fingerprinter.Options`

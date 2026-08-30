@@ -40,7 +40,8 @@ not just simple strings.
 ## (New) Key Features
 
 - **Winnowing Algorithm**: Robust local fingerprinting that is insensitive to small changes in the document.
-- **Jaccard Similarity**: Easy comparison of fingerprints to determine document similarity.
+- **Jaccard Similarity**: Easy comparison of fingerprints to determine document similarity. *Jaccard's* score
+  measures a percentage of shared elements. It is best for finding structural overlap.
 - **Text Cleaning**: Built-in text normalization (removes non-letters and converts to lowercase) for more accurate
   matching.
 - **Size-adjusted, Multi-set and Coverage** scores are now added (not present in the original) 
@@ -71,7 +72,7 @@ Buy Lord of Scripts&trade; <br> a Capuccino on <br><a href="https://www.buymeaco
 </tr>
 </table>
 
----
+![Divider](./assets/lordofscripts-divider-golden.png)
 
 ## Installation
 
@@ -92,7 +93,48 @@ go install github.com/lordofscripts/fingerprint
 The library provides a high-level `similarity` package for quick comparisons and a `fingerprinter` package for more
 granular control. It now also provides file-based functionality.
 
-#### Simple Similarity String Comparison
+#### As an end-user
+
+Here is how to use this module's application command as an end-user.
+
+General Usage:
+
+> `similarity [OPTIONS] [ARGUMENTS]`
+
+Fingerprinting a single item gives you a hash of the item. It is not
+a hash of its contents but a hash taken over the structure, repetitions,
+and other attributes that compose the document.
+
+To *fingerprint* text from the command-line:
+
+> `similarity [--no-normalize|--letters-only] -str1 "Text string to be analyzed"
+
+To *fingerprint* a TEXT file:
+
+> `similarity [--no-normalize|--letters-only] --use-files FILENAME
+
+But, if on the other hand you need to *compare the similarity* of two files (or two strings) and
+take a decision based on the presented results, you have two manners.
+
+> `similarity [--no-normalize|--letters-only] -str1 "Text string to be analyzed" -str2 "Other text to compare to"
+
+To evaluate the *similarity between two files*:
+
+> `similarity [--no-normalize|--letters-only] --use-files FILENAME_1  FILENAME_2
+
+And you can also do:
+
+- `similarity -help` to obtain help about how to invoke the application
+- `similarity -version` to show the application/module version.
+
+
+#### As a Developer
+
+Here is how to integrate and use this module's functionality into your
+applications.
+
+
+##### Simple Similarity String Comparison
 
 ```go
 package main
@@ -120,7 +162,7 @@ func main() {
 }
 ```
 
-#### Simple Similarity File Comparison
+##### Simple Similarity File Comparison
 
 For a better real-life example see the `cmd/main.go` which also
 showcases the extra functionality such as `FileSimilarity` that I added to 
@@ -166,24 +208,33 @@ func main() {
 And the output might look like this:
 
 ```bash
-lordofscripts@munich$ similarity -use-files document_C_20.txt random_A_20.txt 
-File-1:  document_C_20.txt
-File-2:  random_A_20.txt
+lordofscripts@munich$ bin/similarity -use-files tests/assets/document_A_20.txt  tests/assets/document_B_20.txt 
+File-1:  tests/assets/document_A_20.txt
+File-2:  tests/assets/document_B_20.txt
 	*** Similarity scores ***
-	Raw          : 0.016
-	Size-adjusted: 0.013
-	Multi-set    : 0.009
-	Coverage     : 0.018
-
+	Raw          : 95.9%
+	Size-adjusted: 95.5%
+	Multi-set    : 96.0%
+	Coverage     : 98.1%
+	Fingerprint-1: a6c2fa9c3f58672d
+	Fingerprint-2: 49d3e0cd0236562d
 ```
 
-Hints:
+
+### Interpreting Results
+
+Here is how to use or interpret the results given by the *Similarity Scores*:
 
 - Use `Coverage` when you want to detect whether one document is contained in another. The
   coverage function is asymmetric.
 - Use `Size-adjusted` when you want an overall similarity score.
 - Use `MultiSet` if you want repetitions of KGrams in the document to count
 - Add Document Length for *overall similarity*
+- The `Fingerprint-*` result is important because it is *not* a hash/digest of the 
+  data. Such thing changes completely even if a single letter changes. The outputted
+  `fingerprint` value is taken over the K-Grams into which the input file was decomposed,
+  therefore, it takes into consideration similarity, repetitions, overlaps, etc. It is
+  more meaningful than a mere hash that tells you if two things are **identical**.
 
 ### Understanding Options
 
@@ -201,6 +252,24 @@ The library is designed for relatively small documents and is not currently opti
 channels.
 
 Do you want to know more? Read the [In Depth Information](IN_DEPTH.md)
+
+
+### What Changed from the Original
+
+The upstream baseline from which this was taken was: `grahambrooks/fingerprint` tag `2026-08-27-517b8d3`.
+
+- I am using standard software versioning for tags rather than dates.
+- The `go.mod` properly reports the minimum required GO version (not the last version)
+- Added a `Taskfile.yml` for building with [TaskFile](https://taskfile.dev/)
+- Added the `cmd` package with therein an interactive demo application
+- Added multiple score alternatives consolidated into `similarity.SimilarityScores`
+- Added human-friendly Document fingerprints to `similarity.SimilarityScores`
+- Added `tests/assets` directory with test data therein. Tests moved there too.
+- Added `similarity.FileSimilarity()` function
+- Added the `fingerprinter.StreamFingerprinter` object plus extra test
+- Updated `fingerprinter.TextFingerprint()`
+- Added `fingerprinter.FileFingerprint()`
+- Added the `Normalize` option to `fingerprinter.Options`
 
 #### History
 
