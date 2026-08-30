@@ -74,10 +74,16 @@ func (s *StreamFingerprinter) Write(p []byte) (int, error) {
 			break
 		}
 
-		if s.options.Normalize && unicode.IsLetter(r) {
+		// convert to lowercase if Normalize = ON
+		isLetter := unicode.IsLetter(r)
+		if s.options.Normalize && isLetter {
 			r = unicode.ToLower(r)
 		}
-		runes = append(runes, r)
+		// non-letter filtering if requested
+		if isLetter && s.options.LettersOnly || !s.options.LettersOnly { // A · B + ~B = ~B + A
+			runes = append(runes, r)
+		}
+
 		data = data[size:]
 	}
 

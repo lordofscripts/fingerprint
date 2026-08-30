@@ -35,9 +35,9 @@ func TestFingerprinter_Options(t *testing.T) {
 		result bool
 		error  error
 	}{
-		{name: "k > t", option: fingerprinter.Options{GuaranteeThreshold: 0, NoiseThreshold: 1, Normalize: true}, result: false, error: nil},
-		{name: "k == t", option: fingerprinter.Options{GuaranteeThreshold: 1, NoiseThreshold: 1, Normalize: true}, result: true, error: nil},
-		{name: "k < t", option: fingerprinter.Options{GuaranteeThreshold: 2, NoiseThreshold: 1, Normalize: true}, result: true, error: nil},
+		{name: "k > t", option: fingerprinter.Options{GuaranteeThreshold: 0, NoiseThreshold: 1, Normalize: true, LettersOnly: true}, result: false, error: nil},
+		{name: "k == t", option: fingerprinter.Options{GuaranteeThreshold: 1, NoiseThreshold: 1, Normalize: true, LettersOnly: true}, result: true, error: nil},
+		{name: "k < t", option: fingerprinter.Options{GuaranteeThreshold: 2, NoiseThreshold: 1, Normalize: true, LettersOnly: true}, result: true, error: nil},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

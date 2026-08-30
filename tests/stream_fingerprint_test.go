@@ -16,26 +16,41 @@ import (
 /* ----------------------------------------------------------------
  *            U n i t  T e s t   F u n c t i o n s
  *-----------------------------------------------------------------*/
+
+// Runs the Stream Fingerprinter using all 4 combinations of
+// Normalization & Non-letter stripping.
 func TestStreamFingerprint_MatchesTextFingerprint(t *testing.T) {
 	options := fingerprinter.Options{
 		GuaranteeThreshold: 4,
 		NoiseThreshold:     4,
 		Normalize:          true, // @todo update test to try both
+		LettersOnly:        true,
 	}
 
-	text := "The quick brown ß Fox jumped over the lazy dog."
+	text := "The quick brown ß Fox + jumped over the 15 lazy dogs."
 	chunks := []string{
 		"The quick ",
-		"brown ß Fox ",
+		"brown ß Fox + ",
 		"jumped over ",
-		"the lazy dog.",
+		"the 15 lazy dogs.",
+	}
+
+	tCases := []struct {
+		Normalize   bool
+		LettersOnly bool
+	}{
+		{Normalize: false, LettersOnly: false},
+		{Normalize: false, LettersOnly: true},
+		{Normalize: true, LettersOnly: false},
+		{Normalize: true, LettersOnly: true},
 	}
 
 	// Test with both normalize conditions
-	for _, normalize := range []bool{true, false} {
-		options.Normalize = normalize
-		expected := fingerprinter.TextFingerprint(text, options)
+	for _, tcase := range tCases {
+		options.Normalize = tcase.Normalize
+		options.LettersOnly = tcase.LettersOnly
 
+		expected := fingerprinter.TextFingerprint(text, options)
 		stream := fingerprinter.NewStreamFingerprinter(options)
 		for _, chunk := range chunks {
 			if _, err := stream.Write([]byte(chunk)); err != nil {
@@ -47,8 +62,9 @@ func TestStreamFingerprint_MatchesTextFingerprint(t *testing.T) {
 		// 1. For slices: !fingerprintsEqual(expected, actual)
 		// 2. For sets  : !reflect.DeepEqual(expected, actual)
 		if !fingerprintsEqual(expected, actual) {
-			t.Fatalf("fingerprints differ. Normalize:%t\nexpected: %v\nactual:   %v",
-				normalize, expected, actual)
+			t.Fatalf("fingerprints differ. Normalize:%t Letters:%t\nexpected: %v\nactual:   %v",
+				tcase.Normalize, tcase.LettersOnly,
+				expected, actual)
 		}
 	}
 }

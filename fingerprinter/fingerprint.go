@@ -6,9 +6,10 @@ import (
 )
 
 type Options struct {
-	GuaranteeThreshold int // t
-	NoiseThreshold     int // k
-	Normalize          bool
+	GuaranteeThreshold int  // t
+	NoiseThreshold     int  // k
+	Normalize          bool // convert text to lowercase
+	LettersOnly        bool // strip non-letters from the
 }
 
 func (o Options) IsValid() bool {
@@ -19,7 +20,7 @@ func (o Options) IsValid() bool {
 // values for defaults.
 func (o Options) VerifyOrDefault() Options {
 	if !o.IsValid() {
-		return Options{GuaranteeThreshold: 4, NoiseThreshold: 4, Normalize: false}
+		return Options{GuaranteeThreshold: 4, NoiseThreshold: 4, Normalize: false, LettersOnly: true}
 	}
 	return o
 }
