@@ -1,8 +1,19 @@
+/* -----------------------------------------------------------------
+ *              L o r d  O f   S c r i p t s (tm)
+ *             Copyright (C)2026 Dídimo Grimaldo T.
+ *                           APP_NAME
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *-----------------------------------------------------------------*/
 package similarity
 
 import (
 	"github.com/lordofscripts/fingerprint/fingerprinter"
 )
+
+/* ----------------------------------------------------------------
+ *                       F U N C T I O N S
+ *-----------------------------------------------------------------*/
 
 // Scores the similarity of lengths.
 func LengthSimilarity(a, b int) float64 {
@@ -143,4 +154,47 @@ func Coverage(shorter, longer fingerprinter.Fingerprint) float64 {
 	}
 
 	return float64(matches) / float64(len(shortSet))
+}
+
+// Compares the similarity of two fingerprint sets by removing duplicates
+// inside each set.
+func SetSimilarity(a, b fingerprinter.Fingerprint) float64 {
+	// @note the conversion to map[Mark]struct{} removes duplicate fingerprints
+	setA := make(map[fingerprinter.Mark]struct{}, len(a))
+	setB := make(map[fingerprinter.Mark]struct{}, len(b))
+
+	for _, mark := range a {
+		setA[mark] = struct{}{}
+	}
+
+	for _, mark := range b {
+		setB[mark] = struct{}{}
+	}
+
+	if len(setA) == 0 && len(setB) == 0 {
+		return 1
+	}
+
+	if len(setA) == 0 || len(setB) == 0 {
+		return 0
+	}
+
+	intersection := 0
+	union := make(map[fingerprinter.Mark]struct{},
+		len(setA)+len(setB),
+	)
+
+	for mark := range setA {
+		union[mark] = struct{}{}
+
+		if _, exists := setB[mark]; exists {
+			intersection++
+		}
+	}
+
+	for mark := range setB {
+		union[mark] = struct{}{}
+	}
+
+	return float64(intersection) / float64(len(union))
 }

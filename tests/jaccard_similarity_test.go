@@ -18,12 +18,13 @@ import (
 func Test_StringSimilarity(t *testing.T) {
 	t.Run("should return 1 for identical strings", func(t *testing.T) {
 		text := "the quick brown fox jumped over the lazy dog"
-		assert.Equal(t, 1.0, similarity.StringSimilarity(text, text, fingerprinter.Options{}))
+		sim, _ := similarity.StringSimilarity(text, text, fingerprinter.Options{})
+		assert.Equal(t, 1.0, sim)
 	})
 	t.Run("should return 0 for completely different strings", func(t *testing.T) {
 		s1 := "aaaaaaaaaaaaaaaa"
 		s2 := "bbbbbbbbbbbbbbbb"
-		sim := similarity.StringSimilarity(s1, s2, fingerprinter.Options{})
+		sim, _ := similarity.StringSimilarity(s1, s2, fingerprinter.Options{})
 		assert.Less(t, sim, 0.1)
 	})
 }
